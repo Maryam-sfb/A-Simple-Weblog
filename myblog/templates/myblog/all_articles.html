@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% block custom_tags %}
+<link rel="stylesheet" href="{% static 'myblog/style.css' %}">
+{% endblock %}
+
+
+{% block content %}
+<br/>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12">
+            <ul class="list-group">
+        {% for article in all_articles %}
+             <li class="list-group-item"><a href="{{ article.get_absolute_url }}">{{ article.title }}</a></li>
+        {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}
