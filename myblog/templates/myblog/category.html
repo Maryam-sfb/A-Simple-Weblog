@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% block title %} دسته بندی مقالات {% endblock %}
+{% load static %}
+{% block custom_tags %}
+<link rel="stylesheet" href="{% static 'myblog/css/style.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<div class="dropdown">
+  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+دسته بندی مقالات  </button>
+  <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+      {% for category in all_categories %}
+      <a class="dropdown-item" style="text-align:right;" href="{{ category.get_absolute_url }}">{{ category.title }} </a>
+      {% endfor %}
+  </ul>
+</div>
+
+<br/><br/>
+
+    <ul class="list-group">
+        <h4 class="alert alert-primary text-center"> دسته بندی: {{ category.title }}</h4>
+    {% for article in articles %}
+         <li class="list-group-item"><a href="{{ article.get_absolute_url }}">{{ article.title }}</a> -
+             <small>{% for c in article.category_published.all %}
+            {{ c.title }}
+            {% endfor %}</small>
+         </li>
+
+    {% endfor %}
+    </ul><br/>
+
+<nav aria-label="Page navigation example">
+  <ul class="pagination justify-content-center">
+    <li class="page-item">
+         {% if articles.has_previous %}
+      <a class="page-link" href="{% url 'myblog:category' category.slug %}?page={{ articles.previous_page_number }}" tabindex="-1">صفحه قبل</a>
+        {% endif %}
+    </li>
+    <li class="page-item">
+         {% if articles.has_next %}
+      <a class="page-link" href="{% url 'myblog:category' category.slug %}?page={{ articles.next_page_number }}">صفحه بعد</a>
+        {% endif %}
+    </li>
+  </ul>
+</nav>
+
+{% endblock %}

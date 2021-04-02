@@ -1,0 +1,15 @@
+small {
+color : green;
+}
+body {
+    background-image: url('../img/background.jpg');
+    background-size:cover;
+}
+.popular-articles {
+border: 1px;
+padding: 15px;
+border-radius: 5px;
+position: absolute;
+left: -240px;
+top: 0;
+}

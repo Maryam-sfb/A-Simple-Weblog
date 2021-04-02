@@ -1,0 +1,14 @@
+asgiref==3.2.10
+Django==3.1.2
+django-ckeditor==6.0.0
+django-crispy-forms==1.11.1
+django-gravatar2==1.4.4
+django-js-asset==1.2.2
+numpy==1.19.4
+pynput==1.7.1
+pyPdf==1.13
+PyPDF2==1.26.0
+python-decouple==3.4
+pytz==2020.1
+six==1.15.0
+sqlparse==0.4.1

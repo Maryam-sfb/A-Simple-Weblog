@@ -1,20 +1,63 @@
 {% extends 'base.html' %}
-
+{% block title %} صفحه اصلی {% endblock %}
 {% load static %}
 {% block custom_tags %}
-<link rel="stylesheet" href="{% static 'myblog/style.css' %}">
+<link href="{% static 'myblog/css/style.css' %}" rel="stylesheet">
+<link href="{% static 'myblog/css/rtl.css' %}" rel="stylesheet">
 {% endblock %}
 
 {% block content %}
-<div class="container pt-4">
-    <div class="row">
-        <div class="col-sm-12">
-            <ul class="list-group">
-        {% for article in all_articles %}
-             <li class="list-group-item"><a href="{{ article.get_absolute_url }}">{{ article.title }}</a></li>
-        {% endfor %}
-            </ul>
-        </div>
+
+<div class='popular-articles'>
+    <p>مقالات به ترتیب میزان بازدید در ماه گذشته</p>
+    <hr>
+    {% for article in popular_articles %}
+    <div>
+        <a href="{% url 'myblog:article_detail' article.id article.slug %}">{{ article.title }}  </a><small>{{ article.hits.count }} بازدید</small>
     </div>
+    {% endfor %}
+</div><br/>
+
+<div class="dropdown">
+  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+دسته بندی مقالات  </button>
+  <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+      {% for category in categories %}
+      <a class="dropdown-item" style="text-align: right;" href="{{ category.get_absolute_url }}">{{ category.title }} </a>
+      {% endfor %}
+  </ul>
 </div>
+<br/>
+
+<a href="{% url 'myblog:article_create' %}" class="btn btn-primary">افزودن مقاله جدید</a>
+
+<br/><br/>
+
+    <ul class="list-group">
+    {% for article in articles %}
+         <li class="list-group-item"><a href="{{ article.get_absolute_url }}">{{ article.title }}</a> -
+             <small>{% for c in article.category_published.all %}
+            {{ c.title }}
+            {% endfor %}</small>
+         </li>
+
+    {% endfor %}
+    </ul><br/>
+
+<nav aria-label="Page navigation example">
+  <ul class="pagination justify-content-center">
+    <li class="page-item">
+         {% if articles.has_previous %}
+      <a class="page-link" href="{% url 'myblog:all_articles' %}?page={{ articles.previous_page_number }}" tabindex="-1">صفحه قبل</a>
+        {% endif %}
+    </li>
+    <li class="page-item">
+         {% if articles.has_next %}
+      <a class="page-link" href="{% url 'myblog:all_articles' %}?page={{ articles.next_page_number }}">صفحه بعد</a>
+        {% endif %}
+    </li>
+  </ul>
+</nav>
+<br/>
+
 {% endblock %}
